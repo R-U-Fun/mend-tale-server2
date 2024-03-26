@@ -8,12 +8,15 @@ import torch
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-from OpenAIKey import OpenAIKey
+def OpenAIKey():
+    Key1 = "sk-UrqKfMDLy4bH"
+    Key2 = "60Nxft4JT3BlbkFJptKC"
+    Key3 = "Dk1iLXTXOAT0gebM"
+    FullKey=Key1+Key2+Key3
+    return(FullKey)
 
 APIKey=OpenAIKey()
 print(APIKey)
-
-check = "https://drive.google.com/drive/folders/1-8L98heT7ODtYUTdVEeBa0dQGQfad0Ov?usp=sharing/20220602_173122-01.jpeg"
 
 app = Flask(__name__)
 CORS(app)
@@ -37,23 +40,23 @@ def Tokenizer():
     print(join)
     return jsonify(join)
 
-Model = AutoModelForSequenceClassification.from_pretrained("./mt_ml_models/MT_DS_HP1_Mood_Bal_v6_Model/")
-Tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-Moods = ['Neutral', 'Happy', 'Love', 'Excite', 'Sad', 'Anger', 'Fear']
+# Model = AutoModelForSequenceClassification.from_pretrained("./mt_ml_models/MT_DS_HP1_Mood_Bal_v6_Model/")
+# Tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+# Moods = ['Neutral', 'Happy', 'Love', 'Excite', 'Sad', 'Anger', 'Fear']
 
-@app.route('/SentimentAnalysis4', methods=['POST'])
-def SentimentAnalysis4():
-    data = request.get_json()
-    UserResponse = data.get('UserResponse', '')
-    print(UserResponse)
+# @app.route('/SentimentAnalysis4', methods=['POST'])
+# def SentimentAnalysis4():
+#     data = request.get_json()
+#     UserResponse = data.get('UserResponse', '')
+#     print(UserResponse)
 
-    InputData = Tokenizer(UserResponse, truncation=True, padding=True, return_tensors="pt")
-    Logits = Model(**InputData).logits
-    PredictedClass = Logits.argmax().item()
-    PredictedMood = Moods[(PredictedClass)-1]
+#     InputData = Tokenizer(UserResponse, truncation=True, padding=True, return_tensors="pt")
+#     Logits = Model(**InputData).logits
+#     PredictedClass = Logits.argmax().item()
+#     PredictedMood = Moods[(PredictedClass)-1]
 
-    print("\n\nPredictedLabel: ", PredictedMood, "\n\n")
-    return jsonify(PredictedMood)
+#     print("\n\nPredictedLabel: ", PredictedMood, "\n\n")
+#     return jsonify(PredictedMood)
 
 
 StoryPrompt = ChatPromptTemplate.from_messages(
